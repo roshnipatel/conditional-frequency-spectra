@@ -1,0 +1,69 @@
+/// # Based on stdpopsim three population Out-of-Africa model with archaic admixture from Ragsdale and Gravel 2019 (except without the actual archaic admixture for now)
+
+initialize() {
+	initializeMutationRate(0);
+	initializeMutationType("m1", h, "f", s);
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, 999999);
+	initializeRecombinationRate(1e-8);
+}
+
+///
+/// **Demography:**
+
+1 /* initialize frequency; split p1 and p2 */ {
+	sim.addSubpop("p1", 14780);
+        alleleCount = asInteger(p1.genomes.size() * freq);
+        target = sample(p1.genomes, alleleCount);
+        mut = target.addNewDrawnMutation(m1, 500000);
+        defineConstant("MUT", mut);
+        sim.addSubpopSplit("p2", asInteger(880), p1);
+        p1.setSubpopulationSize(13900);
+        p1.setMigrationRates(c(p2), c(0.000522));
+        p2.setMigrationRates(c(p1), c(0.000522));
+}
+
+851 /* split p3 from p2 */ {
+        if (MUT.isSegregating)
+        {
+        MUT.setValue("ooA", p2.genomes.mutationFrequenciesInGenomes(MUT));
+        } else {
+        MUT.setValue("ooA", 0);
+        }
+
+	sim.addSubpopSplit("p3", 650, p2);
+	p2.setSubpopulationSize(2300);
+
+	p1.setMigrationRates(c(p2), c(0.0000248));
+	p2.setMigrationRates(c(p1, p3), c(0.0000248, 0.000113));
+	p3.setMigrationRates(c(p2), c(0.000113));
+}
+
+851:2091 /* exponential growth */ {
+	t = sim.generation - 851;
+	p2_size = round(2300 * (1 + 0.00125)^t);
+	p3_size = round(650 * (1 + 0.00372)^t);
+	
+	p2.setSubpopulationSize(asInteger(p2_size));
+	p3.setSubpopulationSize(asInteger(p3_size));
+}
+
+2091 /* final output */ {
+        if (MUT.isSegregating)
+        {
+        YRIfreq = p1.genomes.mutationFrequenciesInGenomes(MUT);
+        CEUfreq = p2.genomes.mutationFrequenciesInGenomes(MUT);
+        CHBfreq = p3.genomes.mutationFrequenciesInGenomes(MUT);
+        } else if (MUT.isFixed) {
+        YRIfreq = 1;
+        CEUfreq = 1;
+        CHBfreq = 1;
+        } else {
+        YRIfreq = 0;
+        CEUfreq = 0;
+        CHBfreq = 0;
+        }
+        freqDF = DataFrame("ancestral_freq", freq, "ooAfreq", MUT.getValue("ooA"), "YRIfreq", YRIfreq, "CEUfreq", CEUfreq, "CHBfreq", CHBfreq);
+        filePath = "data/ancestral_freq" + freq + "/h" + h + "_s" + s + "/output_" + idx + ".txt";
+        writeFile(filePath, freqDF.serialize(format="tsv"));
+}

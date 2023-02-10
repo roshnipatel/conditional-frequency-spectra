@@ -1,0 +1,119 @@
+import pandas as pd
+
+shell.executable("/usr/bin/bash")
+shell.prefix("source /home/users/rpatel7/.bashrc; ")
+
+freq_list = [[0.01, 0.02],
+             [i/100 for i in range(3, 30)],
+             [i/100 for i in range(30, 60)],
+             [i/100 for i in range(60, 100)]]
+
+rule all:
+    input:
+        expand("data/ancestral_freq{freq}/h5000000_s-1.0e-10/all_sims.txt", 
+               freq=freq_list[2])
+        # "data/one_pop/h5000000_s-1.0e-10/all_muts.txt"
+        # "data/ooA/h0.5_s0.0/all_muts.txt"
+
+rule simulate_one_allele:
+    output:
+        temp("data/ancestral_freq{freq}/h{h}_s{s}/output_{idx}.txt")
+    params:
+        dir="data/ancestral_freq{freq}/h{h}_s{s}"
+    shell:
+        """
+        mkdir -p {params.dir}
+        conda activate slim
+        slim -t -m -d 's={wildcards.s}' -d 'h={wildcards.h}' \
+             -d 'freq={wildcards.freq}' -d 'idx="{wildcards.idx}"' \
+             scripts/one_allele_tracking.slim
+        conda deactivate
+        """
+
+rule simulate_one_pop:
+    output:
+        temp("data/one_pop/h{h}_s{s}/output_{idx}.txt")
+    params:
+        dir="data/one_pop/h{h}_s{s}"
+    shell:
+        """
+        mkdir -p {params.dir}
+        conda activate slim
+        slim -t -m -d 's={wildcards.s}' -d 'h={wildcards.h}' \
+             -d 'out="{output}"' scripts/one_pop.slim
+        conda deactivate
+        """
+
+rule concatenate_one_pop:
+    input:
+        expand("data/one_pop/h{{h}}_s{{s}}/output_{idx}.txt", idx=range(0, 1000))
+    output:
+        "data/one_pop/h{h}_s{s}/all_muts.txt"
+    shell:
+        """
+        head -n 1 -q {input[0]} > {output}
+        tail -n +2 -q {input} >> {output}
+        """
+
+def concat_input(wildcards):
+    if wildcards.freq in ["0.001", "0.003", "0.005", "0.01", "0.02"]:
+        n = 10000
+    elif wildcards.freq in ["0.03", "0.04", "0.05", "0.06", "0.07", "0.08", "0.09"]:
+        n = 4000
+    else:
+        n = 2000
+    return(expand("data/ancestral_freq{freq}/h{h}_s{s}/output_{idx}.txt", 
+                  idx=range(n), h = wildcards.h,
+                  freq=wildcards.freq, s = wildcards.s))
+
+rule concatenate_one_allele:
+    input:
+        concat_input
+    output:
+        "data/ancestral_freq{freq}/h{h}_s{s}/all_sims.txt"
+    shell:
+        """
+        head -n 1 -q {input[0]} > {output}
+        tail -n +2 -q {input} >> {output}
+        """
+
+rule simulate_ooA:
+    output:
+        temp("data/ooA/h{h}_s{s}/output_{idx}.txt")
+    params:
+        dir="data/ooA/h{h}_s{s}"
+    shell:
+        """
+        mkdir -p {params.dir}
+        conda activate slim
+        slim -t -m -d 's={wildcards.s}' -d 'h={wildcards.h}' \
+             -d 'out="{output}"' scripts/ooA.slim
+        conda deactivate
+        """
+
+rule concatenate_ooA:
+    input:
+        expand("data/ooA/h{{h}}_s{{s}}/output_{idx}.txt", idx=range(0, 5000))
+    output:
+        "data/ooA/h{h}_s{s}/all_muts.txt"
+    shell:
+        """
+        head -n 1 -q {input[0]} > {output}
+        tail -n +2 -q {input} >> {output}
+        """
+
+# rule simulate_two_pop:
+#     output:
+#         temp("data/two_pop/h{h}_s{s}/output_{idx}.txt")
+#     params:
+#         dir="data/two_pop/h{h}_s{s}"
+#     shell:
+#         """
+#         mkdir -p {params.dir}
+#         conda activate slim
+#         slim -t -m -d 's={wildcards.s}' -d 'h={wildcards.h}' \
+#              -d 'out="{output}"' scripts/two_pop.slim
+#         conda deactivate
+#         """
+# 
+

@@ -1,0 +1,24 @@
+// Keywords: 
+
+// set up a simple neutral simulation
+initialize()
+{
+	initializeMutationRate(1e-9);
+	initializeMutationType("m1", h, "f", s);
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, 999999);
+	initializeRecombinationRate(1e-8);
+}
+
+1
+{
+	sim.addSubpop("p1", 14780);
+}
+
+147800 early()
+{
+	muts = sim.mutationsOfType(1);
+	freqs = sim.mutationFrequencies(1, muts);
+	freqDF = DataFrame("mut", muts.id, "freq", freqs, "age", muts.originGeneration);
+	writeFile(out, freqDF.serialize(format="tsv"));
+}

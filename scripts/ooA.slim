@@ -1,0 +1,67 @@
+/// # Based on stdpopsim three population Out-of-Africa model with archaic admixture from Ragsdale and Gravel 2019 (except without the actual archaic admixture for now)
+
+initialize() {
+	initializeMutationRate(1.29e-8);
+	initializeMutationType("m1", h, "f", s);
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, 999999);
+	initializeRecombinationRate(1e-8);
+}
+
+///
+/// **Demography:**
+
+1: mutation()
+{ // Mutation callback to initialize tags
+    mut.tag = 0;
+    return T;
+}
+
+1 /* initialize frequency; split p1 and p2 */ {
+	sim.addSubpop("p1", 3600);
+}
+
+36001 /* expand ancestral population */ {
+    p1.setSubpopulationSize(13900);
+}
+
+44253 /* ooA event */ {
+    muts = sim.mutationsOfType(1);
+    muts.tag = 1;
+    for (mut in muts) {
+        mut.setValue("ooA", p1.genomes.mutationFrequenciesInGenomes(mut));
+    }
+
+    sim.addSubpopSplit("p2", asInteger(880), p1);
+    p1.setMigrationRates(c(p2), c(0.000522));
+    p2.setMigrationRates(c(p1), c(0.000522));
+}
+
+45105 /* split p3 from p2 */ {
+	sim.addSubpopSplit("p3", 650, p2);
+	p2.setSubpopulationSize(2300);
+
+	p1.setMigrationRates(c(p2), c(0.0000248));
+	p2.setMigrationRates(c(p1, p3), c(0.0000248, 0.000113));
+	p3.setMigrationRates(c(p2), c(0.000113));
+}
+
+45105:46346 /* exponential growth */ {
+	t = sim.generation - 45105;
+	p2_size = round(2300 * (1 + 0.00125)^t);
+	p3_size = round(650 * (1 + 0.00372)^t);
+	
+	p2.setSubpopulationSize(asInteger(p2_size));
+	p3.setSubpopulationSize(asInteger(p3_size));
+}
+
+46346 /* final output */ {
+    muts = sim.mutationsOfType(1);
+    oldMuts = muts[muts.tag == 1];
+    ooAfreq = oldMuts.getValue("ooA");
+    YRIfreq = p1.genomes.mutationFrequenciesInGenomes(oldMuts);
+    CEUfreq = p2.genomes.mutationFrequenciesInGenomes(oldMuts);
+    CHBfreq = p3.genomes.mutationFrequenciesInGenomes(oldMuts);
+    freqDF = DataFrame("ooAfreq", ooAfreq, "YRIfreq", YRIfreq, "CEUfreq", CEUfreq, "CHBfreq", CHBfreq);
+    writeFile(out, freqDF.serialize(format="tsv"));
+}

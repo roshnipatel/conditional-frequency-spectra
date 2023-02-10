@@ -1,0 +1,43 @@
+{
+    "__default__" :
+    {
+        "queue"     : "pritch,owners,hns",
+        "nodes"     : 1,
+        "tasks"     : 1,
+        "memory"    : 300,
+        "time"      : "5:00",
+        "name"      : "{rule}",
+        "output"    : "/scratch/groups/pritch/roshni/stabilizing_selection/simulations/slurm/{rule}.out",
+        "error"     : "/scratch/groups/pritch/roshni/stabilizing_selection/simulations/slurm/{rule}.err"
+    },
+    "concatenate_one_allele":
+    {
+        "time"      : "20:00",
+        "memory"    : 500
+    },
+    "concatenate_one_pop":
+    {
+        "time"      : "20:00",
+        "memory"    : 500
+    },
+    "simulate_one_allele":
+    {
+        "time"      : "15:00",
+        "output"    : "/scratch/groups/pritch/roshni/stabilizing_selection/simulations/slurm/{rule}_{wildcards.idx}.out",
+        "error"     : "/scratch/groups/pritch/roshni/stabilizing_selection/simulations/slurm/{rule}_{wildcards.idx}.err"
+    },
+    "merge":
+    {
+        "time"      : "10:00"
+    },
+    "simulate_one_pop":
+    {
+        "output"    : "/scratch/groups/pritch/roshni/stabilizing_selection/simulations/slurm/{rule}_{wildcards.s}_{wildcards.idx}.out",
+        "error"     : "/scratch/groups/pritch/roshni/stabilizing_selection/simulations/slurm/{rule}_{wildcards.s}_{wildcards.idx}.err",
+        "time"      : "30:00"
+    },
+    "simulate_ooA":
+    {
+        "time"      : "20:00"
+    }
+}

@@ -1,0 +1,82 @@
+{
+    "__default__" :
+    {
+        "queue"     : "pritch,owners,hns,normal",
+        "nodes"     : 1,
+        "tasks"     : 1,
+        "cores"     : 1,
+        "memory"    : 500,
+        "time"      : "5:00",
+        "name"      : "{rule}",
+        "output"    : "/scratch/groups/pritch/roshni/stabilizing_selection/data_analysis/slurm/{rule}.out",
+        "error"     : "/scratch/groups/pritch/roshni/stabilizing_selection/data_analysis/slurm/{rule}.err"
+    },
+    "resort_snps" :
+    {
+        "memory"    : 1000
+    },
+    "merge_snps_rsID" :
+    {
+        "memory"    : 2000
+    },
+    "sort_rsID_table" :
+    {
+        "time"      : "20:00",
+        "memory"    : 6000
+    },
+    "generate_control_snps" :
+    {
+        "memory"    : 5000
+    },
+    "pseudoempirical_JFD" :
+    {
+        "memory"    : 1000
+    },
+    "preprocess_ancestral_fasta" :
+    {
+        "time"      : "40:00",
+        "memory"    : 2000
+    },
+    "split_variation_file" :
+    {
+        "time"      : "20:00"
+    },
+    "process_variation_file" :
+    {
+        "time"      : "20:00"
+    },
+    "subset_variation_file" :
+    {
+        "time"      : "15:00",
+        "memory"    : 5000
+    },
+    "sort_variation_file" :
+    {
+        "time"      : "20:00",
+        "memory"    : 6000
+    },
+    "fetch_ancestral_states" :
+    {
+        "memory"    : 1000
+    },
+    "extract_positions" :
+    {
+        "time"      : "12:00:00"
+    },
+    "control_JFD" :
+    {
+        "memory"    : 5000,
+        "time"      : "30:00"
+    },
+    "create_pos_file" :
+    {
+        "memory"    : 5000
+    },
+    "compute_DAF" :
+    {
+        "time"      : "75:00",
+        "memory"    : 4000,
+        "output"    : "/scratch/groups/pritch/roshni/stabilizing_selection/data_analysis/slurm/{rule}_{wildcards.chr}.out",
+        "error"     : "/scratch/groups/pritch/roshni/stabilizing_selection/data_analysis/slurm/{rule}_{wildcards.chr}.err"
+    }
+}
