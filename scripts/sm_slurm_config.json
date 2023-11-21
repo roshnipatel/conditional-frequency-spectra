@@ -1,0 +1,118 @@
+{
+    "__default__" :
+    {
+        "queue"     : "pritch,owners,hns",
+        "nodes"     : 1,
+        "tasks"     : 1,
+        "cores"     : 1,
+        "memory"    : 500,
+        "time"      : "5:00",
+        "name"      : "{rule}",
+        "output"    : "/scratch/groups/pritch/roshni/stabilizing_selection/data_analysis/slurm/{rule}.out",
+        "error"     : "/scratch/groups/pritch/roshni/stabilizing_selection/data_analysis/slurm/{rule}.err"
+    },
+    "resort_snps" :
+    {
+        "memory"    : 1000
+    },
+    "concatenate_simulations":
+    {
+        "time"      : "30:00",
+        "memory"    : 1000
+    },
+    "merge_snps_rsID" :
+    {
+        "memory"    : 2000
+    },
+    "sort_rsID_table" :
+    {
+        "time"      : "40:00",
+        "memory"    : 6000
+    },
+    "generate_control_snps" :
+    {
+        "memory"    : 5000
+    },
+    "empirical_probabilities" :
+    {
+        "memory"    : 70000,
+        "time"      : "3:00:00"
+    },
+    "process_variation_file" :
+    {
+        "time"      : "40:00"
+    },
+    "subset_variation_file" :
+    {
+        "time"      : "30:00",
+        "memory"    : 5000
+    },
+    "sort_variation_file" :
+    {
+        "time"      : "40:00",
+        "memory"    : 6000
+    },
+    "ooa_probabilities" :
+    {
+        "memory"    : 8000,
+        "time"      : "20:00"
+    },
+    "two_pop_probabilities" :
+    {
+        "memory"    : 8000,
+        "time"      : "20:00"
+    },
+    "ancestral_sfs" :
+    {
+        "memory"    : 3000,
+        "time"      : "4:00:00"
+    },
+    "generate_dtwf_transition_no_growth" :
+    {
+        "memory"    : 3000,
+        "time"      : "24:00:00"
+    },
+    "generate_dtwf_transition" :
+    {
+        "memory"    : 8000,
+        "time"      : "48:00:00"
+    },
+    "merge_dtwf_transitions" :
+    {
+        "memory"    : 40000,
+        "time"      : "20:00"
+    },
+    "fetch_ancestral_states" :
+    {
+        "memory"    : 1000
+    },
+    "extract_positions" :
+    {
+        "time"      : "12:00:00"
+    },
+    "dtwf_jouganous_wo_migration_probabilities" :
+    {
+        "time"      : "30:00",
+        "memory"    : 60000
+    },
+    "dtwf_two_pop_probabilities" :
+    {
+        "time"      : "30:00",
+        "memory"    : 60000
+    },
+    "drop_CpG" :
+    {
+        "time"      : "10:00"
+    },
+    "create_pos_file" :
+    {
+        "memory"    : 5000
+    },
+    "compute_DAF" :
+    {
+        "time"      : "75:00",
+        "memory"    : 4000,
+        "output"    : "/scratch/groups/pritch/roshni/stabilizing_selection/data_analysis/slurm/{rule}_{wildcards.chr}.out",
+        "error"     : "/scratch/groups/pritch/roshni/stabilizing_selection/data_analysis/slurm/{rule}_{wildcards.chr}.err"
+    }
+}

@@ -1,0 +1,42 @@
+/// 4k generations of evolution in one population (p1)
+/// initial size of p1 is given by `ancestral_ne`
+/// p1 experiences bottleneck and growth for the last 2k
+/// generations specified by command-line args `modern_ne` 
+/// and `growth`
+
+initialize() {
+	initializeMutationRate(0);
+	initializeMutationType("m1", h, "f", s);
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, 999999);
+	initializeRecombinationRate(1e-8);
+}
+
+1 /* initialize frequency; bottleneck */ {
+	sim.addSubpop("p1", asInteger(ancestral_ne));
+        alleleCount = asInteger(p1.genomes.size() * freq);
+        target = sample(p1.genomes, alleleCount);
+        mut = target.addNewDrawnMutation(m1, 500000);
+        defineConstant("MUT", mut);
+        p1.setSubpopulationSize(asInteger(modern_ne));
+}
+
+2000:4000 /* exponential growth */ {
+	t = sim.generation - 1;
+	p1_size = round(asInteger(modern_ne) * (1 + growth)^t);
+	
+	p1.setSubpopulationSize(asInteger(p1_size));
+}
+
+4000 /* final output */ {
+        if (MUT.isSegregating)
+        {
+        modern_freq = p1.genomes.mutationFrequenciesInGenomes(MUT);
+        } else if (MUT.isFixed) {
+        modern_freq = 1;
+        } else {
+        modern_freq = 0;
+        }
+        freqDF = DataFrame("ancestral_freq", freq, "modern_freq", modern_freq);
+        writeFile(out, freqDF.serialize(format="tsv"));
+}

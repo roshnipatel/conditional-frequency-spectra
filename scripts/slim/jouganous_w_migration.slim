@@ -1,0 +1,82 @@
+/// Based on stdpopsim 4 population out of Africa model from Jouganous et al. 2017 (excluding JPT but including migration between branches)
+
+/// N_YRI = 23721
+/// N_ooA = 2831
+/// N_CEU = 2512
+/// N_CHB = 1019
+/// g_YRI = 0 (growth)
+/// g_ooA = 0
+/// g_CEU = 0.16%
+/// g_CHB = 0.26%
+/// t_ooA = 119k years / 29 (years/gen) = 4103 gen
+/// t_CHB =  46k years / 29 (years/gen) = 1586 gen
+/// m_YRI_ooA = 16.8e-5
+/// m_YRI_CEU = 1.14e-5
+/// m_YRI_CHB = 0.56e-5
+/// m_CEU_CHB = 4.75e-5
+
+initialize() {
+	initializeMutationRate(0);
+	initializeMutationType("m1", h, "f", s);
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, 999999);
+	initializeRecombinationRate(1e-8);
+}
+
+1 /* initialize frequency; split YRI (p1) and ooA (p2) */ {
+	sim.addSubpop("p1", 23721);
+    alleleCount = asInteger(p1.genomes.size() * freq);
+    target = sample(p1.genomes, alleleCount);
+    mut = target.addNewDrawnMutation(m1, 500000);
+    defineConstant("MUT", mut);
+    sim.addSubpopSplit("p2", asInteger(2831), p1);
+    p1.setMigrationRates(c(p2), c(0.000168));
+    p2.setMigrationRates(c(p1), c(0.000168));
+}
+
+2517 /* split CHB (p3) from CEU (p2) */ {
+    if (MUT.isSegregating)
+    {
+    MUT.setValue("ooA", p2.genomes.mutationFrequenciesInGenomes(MUT));
+    } else if (MUT.isFixed) {
+    MUT.setValue("ooA", 1);
+    }
+    else {
+    MUT.setValue("ooA", 0);
+    }
+
+	sim.addSubpopSplit("p3", 1019, p2);
+	p2.setSubpopulationSize(2512);
+
+    p1.setMigrationRates(c(p2, p3), c(0.0000114, 0.0000056));
+	p2.setMigrationRates(c(p1, p3), c(0.0000114, 0.0000475));
+	p3.setMigrationRates(c(p1, p2), c(0.0000056, 0.0000475));
+}
+
+2517:4103 /* exponential growth */ {
+	t = sim.generation - 2517;
+	p2_size = round(2512 * (1 + 0.0016)^t);
+	p3_size = round(1019 * (1 + 0.0026)^t);
+	
+	p2.setSubpopulationSize(asInteger(p2_size));
+	p3.setSubpopulationSize(asInteger(p3_size));
+}
+
+4103 /* final output */ {
+    if (MUT.isSegregating)
+    {
+    YRIfreq = p1.genomes.mutationFrequenciesInGenomes(MUT);
+    CEUfreq = p2.genomes.mutationFrequenciesInGenomes(MUT);
+    CHBfreq = p3.genomes.mutationFrequenciesInGenomes(MUT);
+    } else if (MUT.isFixed) {
+    YRIfreq = 1;
+    CEUfreq = 1;
+    CHBfreq = 1;
+    } else {
+    YRIfreq = 0;
+    CEUfreq = 0;
+    CHBfreq = 0;
+    }
+    freqDF = DataFrame("ancestral_freq", freq, "ooAfreq", MUT.getValue("ooA"), "YRIfreq", YRIfreq, "CEUfreq", CEUfreq, "CHBfreq", CHBfreq);
+    writeFile(out, freqDF.serialize(format="tsv"));
+}

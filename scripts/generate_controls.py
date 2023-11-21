@@ -9,7 +9,7 @@ def main():
     parser.add_argument('--out_control')
     args = parser.parse_args()
     
-    gwas = pd.read_csv(args.gwas, sep=',').drop_duplicates()
+    gwas = pd.read_csv(args.gwas, sep='\t')[["SNP"]].drop_duplicates()
     snps = pd.read_csv(args.snps, sep='\t', names=["rsID", "ancestral", "SNP", "alt_freq", "B"])
     
     gwas = pd.merge(gwas, snps, on="SNP")

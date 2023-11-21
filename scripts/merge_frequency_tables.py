@@ -2,14 +2,14 @@ import pandas as pd
 import argparse
 
 def merge_freq_file(anc, freq, pop):
-    vals_to_remove = freq.apply(lambda row: '<' in row.a1 or '<' in row.a2, axis=1) # cleaning up data
+    vals_to_remove = freq.apply(lambda row: '<' in row.a1 or '<' in row.a2, axis=1) # cleaning up data; removing CNVs
     freq = freq[~vals_to_remove]
     freq[["allele1", "freq1"]] = freq.apply(lambda row: row.a1.split(':'), axis=1, result_type='expand')
     freq[["allele2", "freq2"]] = freq.apply(lambda row: row.a2.split(':'), axis=1, result_type='expand')
     merged = pd.merge(anc, freq, on=["chrom", "pos"])
-    a1_ancestral = merged.loc[merged.allele1 == merged.ancestral,:]
+    a1_ancestral = merged.loc[(merged.allele1 == merged.ancestral) & (merged.allele2 == merged.derived),:]
     a1_ancestral[pop + "freq"] = a1_ancestral["freq2"]
-    a2_ancestral = merged.loc[merged.allele2 == merged.ancestral,:]
+    a2_ancestral = merged.loc[(merged.allele2 == merged.ancestral) & (merged.allele1 == merged.derived),:]
     a2_ancestral[pop + "freq"] = a2_ancestral["freq1"]
     merged = pd.concat([a1_ancestral, a2_ancestral]).drop(["n_alleles", "n_chr", "a1", "a2", "allele1", "allele2", "freq1", "freq2"], axis=1)
     return(merged)
@@ -26,8 +26,10 @@ def main():
     anc_table["chrom"] = pd.to_numeric(anc_table["chrom"])
     anc_table["pos"] = pd.to_numeric(anc_table["pos"])
     ref_ancestral = anc_table.loc[anc_table.ref == anc_table.ancestral,:]
+    ref_ancestral["derived"] = ref_ancestral.alt
     ref_ancestral["UKB_WBfreq"] = ref_ancestral["alt_freq"]
     alt_ancestral = anc_table.loc[anc_table.alt == anc_table.ancestral,:]
+    alt_ancestral["derived"] = alt_ancestral.ref
     alt_ancestral["UKB_WBfreq"] = 1 - alt_ancestral["alt_freq"]
     anc_table = pd.concat([ref_ancestral, alt_ancestral])
     

@@ -1,0 +1,107 @@
+trait_idx	full_trait	binary
+90	Standing height	0
+66	Mean platelet (thrombocyte) volume	0
+88	Sitting height	0
+76	Platelet count	0
+65	Mean corpuscular volume	0
+63	Mean corpuscular haemoglobin	0
+78	Platelet distribution width	0
+77	Platelet crit	0
+96	Trunk fat-free mass	0
+97	Trunk predicted mass	0
+104	Whole body fat-free mass	0
+105	Whole body water mass	0
+7	Alkaline phosphatase (quantile)	0
+69	Monocyte count	0
+16	Basal metabolic rate	0
+82	Red blood cell (erythrocyte) distribution width	0
+29	Eosinophill percentage	0
+67	Mean reticulocyte volume	0
+81	Red blood cell (erythrocyte) count	0
+68	Mean sphered cell volume	0
+59	Leg fat-free mass (right)	0
+60	Leg predicted mass (right)	0
+70	Monocyte percentage	0
+36	Glycated haemoglobin (quantile)	0
+51	IGF-1 (quantile)	0
+13	Arm fat-free mass (right)	0
+14	Arm predicted mass (right)	0
+49	High light scatter reticulocyte percentage	0
+48	High light scatter reticulocyte count	0
+61	Lymphocyte count	0
+84	Reticulocyte percentage	0
+83	Reticulocyte count	0
+55	Impedance of whole body	0
+101	Weight	0
+102	White blood cell (leukocyte) count	0
+35	Gamma glutamyltransferase (quantile)	0
+27	Creatinine (quantile)	0
+46	Heel quantitative ultrasound index (QUI), direct entry	0
+43	Heel bone mineral density (BMD) T-score, automated	0
+41	Heel bone mineral density (BMD)	0
+54	Impedance of leg (left)	0
+38	Haemoglobin concentration	0
+86	SHBG (quantile)	0
+93	Triglycerides (quantile)	0
+53	Impedance of arm (left)	0
+72	Neutrophill count	0
+40	Heel Broadband ultrasound attenuation, direct entry	0
+62	Lymphocyte percentage	0
+37	Haematocrit percentage	0
+21	Body mass index (BMI)	0
+52	Immature reticulocyte fraction	0
+94	Trunk fat mass	0
+103	Whole body fat mass	0
+33	Forced vital capacity (FVC)	0
+92	Total protein (quantile)	0
+73	Neutrophill percentage	0
+50	Hip circumference	0
+11	Arm fat mass (left)	0
+57	Leg fat mass (left)	0
+9	Ankle spacing width	0
+34	Forced vital capacity (FVC), Best measure	0
+20	Body fat percentage	0
+32	Forced expiratory volume in 1-second (FEV1), predicted	0
+12	Arm fat percentage (left)	0
+95	Trunk fat percentage	0
+58	Leg fat percentage (left)	0
+30	Forced expiratory volume in 1-second (FEV1)	0
+100	Waist circumference	0
+80	Pulse rate, automated reading	0
+6	Albumin (quantile)	0
+5	Alanine aminotransferase (quantile)	0
+23	Calcium (quantile)	0
+31	Forced expiratory volume in 1-second (FEV1), Best measure	0
+42	Heel bone mineral density (BMD) (right)	0
+47	Heel quantitative ultrasound index (QUI), direct entry (right)	0
+44	Heel bone mineral density (BMD) T-score, automated (right)	0
+91	Systolic blood pressure, automated reading	0
+99	Urea (quantile)	0
+45	Heel broadband ultrasound attenuation (right)	0
+28	Diastolic blood pressure, automated reading	0
+64	Mean corpuscular haemoglobin concentration	0
+10	Ankle spacing width (right)	0
+1	3mm weak meridian (left)	0
+0	3mm strong meridian (left)	0
+4	Age first had sexual intercourse	0
+17	Basophill percentage	0
+2	6mm strong meridian (left)	0
+39	Hand grip strength (right)	0
+3	6mm weak meridian (left)	0
+25	Corneal resistance factor (right)	0
+75	Peak expiratory flow (PEF)	0
+89	Spherical power (left)	0
+19	Birth weight	0
+24	Corneal hysteresis (right)	0
+8	Alzheimer's disease	1
+22	Breast cancer	1
+26	Coronary artery disease	1
+56	Inflammatory bowel disease	1
+71	Multiple sclerosis	1
+74	Parkinson's disease	1
+79	Prostate cancer	1
+85	Rheumatoid arthritis	1
+87	Schizophrenia	1
+98	Type 2 diabetes	1
+15	Attention deficit hyperactivity disorder	1
+18	Bipolar disorder	1

@@ -1,3 +1,15 @@
 # Ignore everything except for this file
-*
+gwas/raw
+gwas/raw/*
+gwas/hakha_dropbox
+gwas/hakha_dropbox/*
+gwas/snp_ID_conversion_table.txt
+gwas/README
+gwas/pooled*
+older_sims
+older_sims/*
+CADD_bestfit
+CADD_bestfit/*
+simulations
+simulations/*
 !.gitignore
