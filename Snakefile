@@ -67,6 +67,15 @@ rule all:
                ancestral=["1e4"],
                p1=["1e4"],
                p2=["1e3_growth0", "1e4_growth0", "1e4_growth0.0005", "1e4_growth0.001", "1e3_growth0.001", "3e3_growth0"])
+        expand("data/distributions/dtwf-generation{gen}_{ancestral}.p1_ne{p1}_growth0.p2_ne{p2}/{mode}_ancestor_conditional_p2.txt",
+               mode=["h0.5_s0.0",
+                     "h0.5_s+1.0e-3",
+                     "h0.5_s-1.0e-3",
+                     "h5e6_s-1.0e-10"],
+               ancestral=["bottleneck1e3", "growth0.001"],
+               gen=["2e3"],
+               p1=["1e4"],
+               p2=["1e3_growth0", "1e4_growth0", "1e4_growth0.001", "1e3_growth0.001"])
 
 rule process_ukb_data: 
     input:
@@ -424,6 +433,38 @@ rule ancestral_sfs:
         conda deactivate
         """
 
+rule bottleneck_ancestral_sfs:
+    output:
+        "data/distributions/ancestral/ancestral1e4_h{h_coeff}_s{s_coeff}_ancestral_bottleneck1e3_sfs_count_probs.npy"
+    params:
+        dir="data/distributions/ancestral"
+    shell:
+        """
+        mkdir -p {params.dir}
+        conda activate sm-debug
+        python scripts/bottleneck_ancestral_sfs.py \
+            --s_coeff={wildcards.s_coeff} \
+            --h_coeff={wildcards.h_coeff} \
+            --out {output}
+        conda deactivate
+        """
+
+rule growth_ancestral_sfs:
+    output:
+        "data/distributions/ancestral/ancestral1e4_h{h_coeff}_s{s_coeff}_ancestral_growth0.001_sfs_count_probs.npy"
+    params:
+        dir="data/distributions/ancestral"
+    shell:
+        """
+        mkdir -p {params.dir}
+        conda activate sm-debug
+        python scripts/growth_ancestral_sfs.py \
+            --s_coeff={wildcards.s_coeff} \
+            --h_coeff={wildcards.h_coeff} \
+            --out {output}
+        conda deactivate
+        """
+
 def find_sims(wildcards):
     if wildcards.model == "jouganous_wo_migration":
         n_sims = 2000
@@ -571,6 +612,62 @@ rule merge_dtwf_transitions:
             --h_coeff={wildcards.h} \
             --s_coeff={wildcards.s} \
             --out {output}
+        conda deactivate
+        """
+
+rule dtwf_two_pop_expanded_ancestral:
+    input:
+        anc="data/distributions/ancestral/ancestral1e4_h{h}_s{s}_ancestral_growth0.001_sfs_count_probs.npy",
+        p1=ancient("data/distributions/dtwf-raw/ancestral1e4_modern{p1}_growth{p1_growth}_gen{gen}_h{h}_s{s}.npy"),
+        p2=ancient("data/distributions/dtwf-raw/ancestral1e4_modern{p2}_growth{p2_growth}_gen{gen}_h{h}_s{s}.npy")
+    output:
+        expand("data/distributions/dtwf-generation{{gen}}_growth0.001.p1_ne{{p1}}_growth{{p1_growth}}.p2_ne{{p2}}_growth{{p2_growth}}/h{{h}}_s{{s}}_{dist}.txt",
+               dist=["p1_conditional_ancestor",
+                     "p2_conditional_ancestor",
+                     "ancestor_conditional_p2",
+                     "ancestor_conditional_p1",
+                     "p1_conditional_p2",
+                     "p2_conditional_p1"])
+    params:
+        dir="data/distributions/dtwf-generation{gen}_growth0.001.p1_ne{p1}_growth{p1_growth}.p2_ne{p2}_growth{p2_growth}",
+        prefix="data/distributions/dtwf-generation{gen}_growth0.001.p1_ne{p1}_growth{p1_growth}.p2_ne{p2}_growth{p2_growth}/h{h}_s{s}_"
+    shell:
+        """
+        mkdir -p {params.dir}
+        conda activate py3
+        python scripts/two_pop_dtwf_cfs.py \
+            --ancestral {input.anc} \
+            --p1_forward {input.p1} \
+            --p2_forward {input.p2} \
+            --out_prefix {params.prefix}
+        conda deactivate
+        """
+
+rule dtwf_two_pop_bottlenecked_ancestral:
+    input:
+        anc="data/distributions/ancestral/ancestral1e4_h{h}_s{s}_ancestral_bottleneck1e3_sfs_count_probs.npy",
+        p1=ancient("data/distributions/dtwf-raw/ancestral1e4_modern{p1}_growth{p1_growth}_gen{gen}_h{h}_s{s}.npy"),
+        p2=ancient("data/distributions/dtwf-raw/ancestral1e4_modern{p2}_growth{p2_growth}_gen{gen}_h{h}_s{s}.npy")
+    output:
+        expand("data/distributions/dtwf-generation{{gen}}_bottleneck1e3.p1_ne{{p1}}_growth{{p1_growth}}.p2_ne{{p2}}_growth{{p2_growth}}/h{{h}}_s{{s}}_{dist}.txt",
+               dist=["p1_conditional_ancestor",
+                     "p2_conditional_ancestor",
+                     "ancestor_conditional_p2",
+                     "ancestor_conditional_p1",
+                     "p1_conditional_p2",
+                     "p2_conditional_p1"])
+    params:
+        dir="data/distributions/dtwf-generation{gen}_bottleneck1e3.p1_ne{p1}_growth{p1_growth}.p2_ne{p2}_growth{p2_growth}",
+        prefix="data/distributions/dtwf-generation{gen}_bottleneck1e3.p1_ne{p1}_growth{p1_growth}.p2_ne{p2}_growth{p2_growth}/h{h}_s{s}_"
+    shell:
+        """
+        mkdir -p {params.dir}
+        conda activate py3
+        python scripts/two_pop_dtwf_cfs.py \
+            --ancestral {input.anc} \
+            --p1_forward {input.p1} \
+            --p2_forward {input.p2} \
+            --out_prefix {params.prefix}
         conda deactivate
         """
 

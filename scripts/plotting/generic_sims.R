@@ -339,6 +339,218 @@ ggplot() +
        title = expression("B) Exponential growth (r = 0.05%)"))
 ggsave("plots/alt_demo_B.pdf", height=85, width=85, units="mm")
 
+########################### Alternative prior - CFS ############################
+dtwf_filepath_prefix = paste0("~/sherlock/scratch/stabilizing_selection/data_analysis/data/distributions/dtwf-generation2e3_bottleneck1e3.p1_ne1e4_growth0.p2_ne1e4_growth0/")
+dtwf_p1_p2 = load_two_pop_dist(dtwf_filepath_prefix, "p1_conditional_p2.txt")
+
+dtwf_p1_p2_mean = dtwf_p1_p2 %>% group_by(p2freq, s) %>%
+  summarize(mean_p1 = sum(as.numeric(p1freq) * prob)) %>%
+  mutate(p2freq = as.numeric(p2freq)) %>% 
+  filter(p2freq < 1)
+ggplot(dtwf_p1_p2_mean) + 
+  geom_line(mapping=aes(p2freq, mean_p1, color=s),
+            show.legend = FALSE) + 
+  selection_color + universal_theme + 
+  labs(x = "population 2 frequency", y = "expected population 1 frequency", 
+       title = expression("A) Ancestral bottleneck"))
+ggsave("plots/alt_prior_A.pdf", height=56, width=56, units="mm")
+
+dtwf_filepath_prefix = paste0("~/sherlock/scratch/stabilizing_selection/data_analysis/data/distributions/dtwf-generation2e3_bottleneck1e3.p1_ne1e4_growth0.p2_ne1e3_growth0/")
+dtwf_p1_p2 = load_two_pop_dist(dtwf_filepath_prefix, "p1_conditional_p2.txt")
+
+dtwf_p1_p2_mean = dtwf_p1_p2 %>% group_by(p2freq, s) %>%
+  summarize(mean_p1 = sum(as.numeric(p1freq) * prob)) %>%
+  mutate(p2freq = as.numeric(p2freq)) %>% 
+  filter(p2freq < 1)
+ggplot(dtwf_p1_p2_mean) + 
+  geom_line(mapping=aes(p2freq, mean_p1, color=s),
+            show.legend = FALSE) + 
+  selection_color + universal_theme + 
+  labs(x = "population 2 frequency", y = "expected population 1 frequency", 
+       title = expression("B) Ancestral bottleneck, modern bottleneck"))
+ggsave("plots/alt_prior_B.pdf", height=56, width=56, units="mm")
+
+dtwf_filepath_prefix = paste0("~/sherlock/scratch/stabilizing_selection/data_analysis/data/distributions/dtwf-generation2e3_bottleneck1e3.p1_ne1e4_growth0.p2_ne1e4_growth0.001/")
+dtwf_p1_p2 = load_two_pop_dist(dtwf_filepath_prefix, "p1_conditional_p2.txt")
+
+dtwf_p1_p2_mean = dtwf_p1_p2 %>% group_by(p2freq, s) %>%
+  summarize(mean_p1 = sum(as.numeric(p1freq) * prob)) %>%
+  mutate(p2freq = as.numeric(p2freq)) %>% 
+  filter(p2freq < 1)
+ggplot(dtwf_p1_p2_mean) + 
+  geom_line(mapping=aes(p2freq, mean_p1, color=s),
+            show.legend = FALSE) + 
+  selection_color + universal_theme + 
+  labs(x = "population 2 frequency", y = "expected population 1 frequency", 
+       title = expression("C) Ancestral bottleneck, modern expansion"))
+ggsave("plots/alt_prior_C.pdf", height=56, width=56, units="mm")
+
+dtwf_filepath_prefix = paste0("~/sherlock/scratch/stabilizing_selection/data_analysis/data/distributions/dtwf-generation2e3_growth0.001.p1_ne1e4_growth0.p2_ne1e4_growth0/")
+dtwf_p1_p2 = load_two_pop_dist(dtwf_filepath_prefix, "p1_conditional_p2.txt")
+
+dtwf_p1_p2_mean = dtwf_p1_p2 %>% group_by(p2freq, s) %>%
+  summarize(mean_p1 = sum(as.numeric(p1freq) * prob)) %>%
+  mutate(p2freq = as.numeric(p2freq)) %>% 
+  filter(p2freq < 1)
+ggplot(dtwf_p1_p2_mean) + 
+  geom_line(mapping=aes(p2freq, mean_p1, color=s),
+            show.legend = FALSE) + 
+  selection_color + universal_theme + 
+  labs(x = "population 2 frequency", y = "expected population 1 frequency", 
+       title = expression("D) Ancestral expansion"))
+ggsave("plots/alt_prior_D.pdf", height=56, width=56, units="mm")
+
+dtwf_filepath_prefix = paste0("~/sherlock/scratch/stabilizing_selection/data_analysis/data/distributions/dtwf-generation2e3_growth0.001.p1_ne1e4_growth0.p2_ne1e3_growth0/")
+dtwf_p1_p2 = load_two_pop_dist(dtwf_filepath_prefix, "p1_conditional_p2.txt")
+
+dtwf_p1_p2_mean = dtwf_p1_p2 %>% group_by(p2freq, s) %>%
+  summarize(mean_p1 = sum(as.numeric(p1freq) * prob)) %>%
+  mutate(p2freq = as.numeric(p2freq)) %>% 
+  filter(p2freq < 1)
+ggplot(dtwf_p1_p2_mean) + 
+  geom_line(mapping=aes(p2freq, mean_p1, color=s),
+            show.legend = FALSE) + 
+  selection_color + universal_theme + 
+  labs(x = "population 2 frequency", y = "expected population 1 frequency", 
+       title = expression("E) Ancestral expansion, modern bottleneck"))
+ggsave("plots/alt_prior_E.pdf", height=56, width=56, units="mm")
+
+dtwf_filepath_prefix = paste0("~/sherlock/scratch/stabilizing_selection/data_analysis/data/distributions/dtwf-generation2e3_growth0.001.p1_ne1e4_growth0.p2_ne1e4_growth0.001/")
+dtwf_p1_p2 = load_two_pop_dist(dtwf_filepath_prefix, "p1_conditional_p2.txt")
+
+dtwf_p1_p2_mean = dtwf_p1_p2 %>% group_by(p2freq, s) %>%
+  summarize(mean_p1 = sum(as.numeric(p1freq) * prob)) %>%
+  mutate(p2freq = as.numeric(p2freq)) %>% 
+  filter(p2freq < 1)
+ggplot(dtwf_p1_p2_mean) + 
+  geom_line(mapping=aes(p2freq, mean_p1, color=s),
+            show.legend = FALSE) + 
+  selection_color + universal_theme + 
+  labs(x = "population 2 frequency", y = "expected population 1 frequency", 
+       title = expression("F) Ancestral expansion, modern expansion"))
+ggsave("plots/alt_prior_F.pdf", height=56, width=56, units="mm")
+
+######################### Alternative prior - backward #########################
+
+### Ancestral expansion, equilibrium branch (A)
+dtwf_filepath_prefix = paste0("~/sherlock/scratch/stabilizing_selection/data_analysis/data/distributions/dtwf-generation2e3_growth0.001.p1_ne1e4_growth0.p2_ne1e3_growth0/")
+dtwf_anc_p1 = load_two_pop_dist(dtwf_filepath_prefix, "ancestor_conditional_p1.txt")
+dtwf_anc_p1_mean = dtwf_anc_p1 %>% 
+  group_by(p1freq, s) %>%
+  summarize(mean_anc = sum(as.numeric(ancestral_freq) * prob)) %>%
+  mutate(p1freq = as.numeric(p1freq)) %>%
+  filter(p1freq < 1)
+
+ggplot() + 
+  geom_line(data=dtwf_anc_p1_mean, 
+            mapping=aes(p1freq, mean_anc, color=s),
+            size=line_size, show.legend = FALSE) +
+  universal_theme + selection_color + ylim(0, 1) +
+  labs(x = "frequency in descendant", y = "expected frequency in ancestor",
+       title = expression("A) Ancestral expansion"))
+ggsave("plots/alt_prior_A.pdf", height=56, width=56, units="mm")
+
+### Ancestral expansion + modern bottleneck (B)
+dtwf_filepath_prefix = paste0("~/sherlock/scratch/stabilizing_selection/data_analysis/data/distributions/dtwf-generation2e3_growth0.001.p1_ne1e4_growth0.p2_ne1e3_growth0/")
+dtwf_anc_p2 = load_two_pop_dist(dtwf_filepath_prefix, "ancestor_conditional_p2.txt")
+dtwf_anc_p2_mean = dtwf_anc_p2 %>% 
+  group_by(p2freq, s) %>%
+  summarize(mean_anc = sum(as.numeric(ancestral_freq) * prob)) %>%
+  mutate(p2freq = as.numeric(p2freq)) %>%
+  filter(p2freq < 1)
+
+ggplot() + 
+  geom_line(data=dtwf_anc_p2_mean, mapping=aes(p2freq, mean_anc, color=s),
+            size=line_size, show.legend = FALSE) +
+  universal_theme + selection_color + ylim(0, 1) +
+  labs(x = "frequency in descendant", y = "expected frequency in ancestor",
+       title = expression("B) Ancestral expansion, modern bottleneck"))
+ggsave("plots/alt_prior_B.pdf", height=56, width=56, units="mm")
+
+### Ancestral expansion + modern growth (C)
+dtwf_filepath_prefix = paste0("~/sherlock/scratch/stabilizing_selection/data_analysis/data/distributions/dtwf-generation2e3_growth0.001.p1_ne1e4_growth0.p2_ne1e4_growth0.001/")
+dtwf_anc_p2 = load_two_pop_dist(dtwf_filepath_prefix, "ancestor_conditional_p2.txt")
+dtwf_anc_p2_mean = dtwf_anc_p2 %>% 
+  group_by(p2freq, s) %>%
+  summarize(mean_anc = sum(as.numeric(ancestral_freq) * prob)) %>%
+  mutate(p2freq = as.numeric(p2freq)) %>%
+  filter(p2freq < 1)
+
+ggplot() + 
+  geom_line(data=dtwf_anc_p2_mean, mapping=aes(p2freq, mean_anc, color=s),
+            size=line_size, show.legend = FALSE) +
+  universal_theme + selection_color + ylim(0, 1) +
+  labs(x = "frequency in descendant", y = "expected frequency in ancestor",
+       title = expression("C) Ancestral expansion, modern expansion"))
+ggsave("plots/alt_prior_C.pdf", height=56, width=56, units="mm")
+
+### Ancestral bottleneck, equilibrium branch (D)
+dtwf_filepath_prefix = paste0("~/sherlock/scratch/stabilizing_selection/data_analysis/data/distributions/dtwf-generation2e3_bottleneck1e3.p1_ne1e4_growth0.p2_ne1e3_growth0/")
+dtwf_anc_p1 = load_two_pop_dist(dtwf_filepath_prefix, "ancestor_conditional_p1.txt")
+dtwf_anc_p1_mean = dtwf_anc_p1 %>% 
+  group_by(p1freq, s) %>%
+  summarize(mean_anc = sum(as.numeric(ancestral_freq) * prob)) %>%
+  mutate(p1freq = as.numeric(p1freq)) %>%
+  filter(p1freq < 1)
+
+ggplot() + 
+  geom_line(data=dtwf_anc_p1_mean, 
+            mapping=aes(p1freq, mean_anc, color=s),
+            size=line_size, show.legend = FALSE) +
+  universal_theme + selection_color + ylim(0, 1) +
+  labs(x = "frequency in descendant", y = "expected frequency in ancestor",
+       title = expression("D) Ancestral bottleneck"))
+ggsave("plots/alt_prior_D.pdf", height=56, width=56, units="mm")
+
+### Ancestral bottleneck + modern bottleneck (E)
+dtwf_filepath_prefix = paste0("~/sherlock/scratch/stabilizing_selection/data_analysis/data/distributions/dtwf-generation2e3_bottleneck1e3.p1_ne1e4_growth0.p2_ne1e3_growth0/")
+dtwf_anc_p2 = load_two_pop_dist(dtwf_filepath_prefix, "ancestor_conditional_p2.txt")
+dtwf_anc_p2_mean = dtwf_anc_p2 %>% 
+  group_by(p2freq, s) %>%
+  summarize(mean_anc = sum(as.numeric(ancestral_freq) * prob)) %>%
+  mutate(p2freq = as.numeric(p2freq)) %>%
+  filter(p2freq < 1)
+
+ggplot() + 
+  geom_line(data=dtwf_anc_p2_mean, mapping=aes(p2freq, mean_anc, color=s),
+            size=line_size, show.legend = FALSE) +
+  universal_theme + selection_color + ylim(0, 1) +
+  labs(x = "frequency in descendant", y = "expected frequency in ancestor",
+       title = expression("E) Ancestral bottleneck, modern bottleneck"))
+ggsave("plots/alt_prior_E.pdf", height=56, width=56, units="mm")
+
+### Ancestral bottleneck + modern growth (F)
+dtwf_filepath_prefix = paste0("~/sherlock/scratch/stabilizing_selection/data_analysis/data/distributions/dtwf-generation2e3_bottleneck1e3.p1_ne1e4_growth0.p2_ne1e4_growth0.001/")
+dtwf_anc_p2 = load_two_pop_dist(dtwf_filepath_prefix, "ancestor_conditional_p2.txt")
+dtwf_anc_p2_mean = dtwf_anc_p2 %>% 
+  group_by(p2freq, s) %>%
+  summarize(mean_anc = sum(as.numeric(ancestral_freq) * prob)) %>%
+  mutate(p2freq = as.numeric(p2freq)) %>%
+  filter(p2freq < 1)
+
+ggplot() + 
+  geom_line(data=dtwf_anc_p2_mean, mapping=aes(p2freq, mean_anc, color=s),
+            size=line_size, show.legend = FALSE) +
+  universal_theme + selection_color + ylim(0, 1) +
+  labs(x = "frequency in descendant", y = "expected frequency in ancestor",
+       title = expression("F) Ancestral bottleneck, modern expansion"))
+ggsave("plots/alt_prior_F.pdf", height=56, width=56, units="mm")
+
+dtwf_filepath_prefix = paste0("~/sherlock/scratch/stabilizing_selection/data_analysis/data/distributions/dtwf-generation2e3_bottleneck1e3.p1_ne1e4_growth0.p2_ne1e3_growth0/")
+dtwf_p1_p2 = load_two_pop_dist(dtwf_filepath_prefix, "p1_conditional_p2.txt")
+
+dtwf_p1_p2_mean = dtwf_p1_p2 %>% group_by(p2freq, s) %>%
+  summarize(mean_p1 = sum(as.numeric(p1freq) * prob)) %>%
+  mutate(p2freq = as.numeric(p2freq)) %>% 
+  filter(p2freq < 1)
+ggplot(dtwf_p1_p2_mean) + 
+  geom_line(mapping=aes(p2freq, mean_p1, color=s),
+            show.legend = FALSE) + 
+  selection_color + universal_theme + 
+  labs(x = "population 2 frequency", y = "expected population 1 frequency", 
+       title = expression("A) Bottleneck (0.1N"['e']*")"))
+ggsave("plots/demo_cfs_A.pdf", height=56, width=56, units="mm")
+
 ################################ Demography CFS ################################
 dtwf_filepath_prefix = paste0("~/sherlock/scratch/stabilizing_selection/data_analysis/data/distributions/dtwf-generation2e3_ancestral1e4.p1_ne1e4_growth0.p2_ne1e3_growth0/")
 dtwf_p1_p2 = load_two_pop_dist(dtwf_filepath_prefix, "p1_conditional_p2.txt")

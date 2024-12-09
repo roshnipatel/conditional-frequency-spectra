@@ -62,6 +62,16 @@
         "memory"    : 8000,
         "time"      : "20:00"
     },
+    "growth_ancestral_sfs" :
+    {
+        "memory"    : 3000,
+        "time"      : "4:00:00"
+    },
+    "bottleneck_ancestral_sfs" :
+    {
+        "memory"    : 3000,
+        "time"      : "4:00:00"
+    },
     "ancestral_sfs" :
     {
         "memory"    : 3000,
@@ -91,6 +101,16 @@
         "time"      : "12:00:00"
     },
     "dtwf_jouganous_wo_migration_probabilities" :
+    {
+        "time"      : "30:00",
+        "memory"    : 60000
+    },
+    "dtwf_two_pop_expanded_ancestral" :
+    {
+        "time"      : "30:00",
+        "memory"    : 60000
+    },
+    "dtwf_two_pop_bottlenecked_ancestral" :
     {
         "time"      : "30:00",
         "memory"    : 60000
