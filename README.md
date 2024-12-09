@@ -3,12 +3,12 @@
 ## Description
 This is more or less a one-stop shop for every result generated in [Patel et al., 2024](https://www.biorxiv.org/content/10.1101/2024.06.15.599126v1). This Snakefile can generate conditional frequency spectra from empirical data as well as from theoretical models, using either SLiM simulations or fastDTWF, for both generic two-population models and the [Jouganous et al. 2017 out-of-Africa model](https://pubmed.ncbi.nlm.nih.gov/28495960/) (ft. some slight modifications).
 ### Useful bits of data
-* `data/gwas` contains GWAS summary statistics for 106 complex traits analyzed in this paper. The summary statistics were curated by Yuval Simons, Hakhamanesh Mostafavi, and Julie Zhu based on the [Neale lab UK Biobank GWAS](https://www.nealelab.is/uk-biobank)
-* `data/distributions` contains all frequency spectra analyzed in this paper if you want to tinker with some distributions
- * Note: I would use distributions generated with [fastDTWF](https://github.com/jeffspence/fastDTWF) over those generated with [SLiM](https://messerlab.org/slim/); fastDTWF numerically computes frequency spectra, which is inherently less noisy than approximating a frequency spectrum from 2000 simulations
+* `data/gwas` contains GWAS summary statistics for 106 complex traits analyzed in this paper. The summary statistics were curated by Yuval Simons, Hakhamanesh Mostafavi, and Julie Zhu based on the [Neale lab UK Biobank GWAS](https://www.nealelab.is/uk-biobank).
+* `data/distributions` contains all frequency spectra analyzed in this paper if you want to tinker with some distributions.
+  * Note: I would use distributions generated with [fastDTWF](https://github.com/jeffspence/fastDTWF) over those generated with [SLiM](https://messerlab.org/slim/); fastDTWF numerically computes frequency spectra, which is inherently less noisy than approximating a frequency spectrum from 2000 simulations
 ### Useful bits of code
-* `scripts/probability_dist.py` is really nice if you need to do any kind of manipulations with (discretized) frequency spectra or other probability distributions
-* `scripts/empirical_cfs.py` will generate conditional frequency spectra for whatever empirical data you want to analyze
+* `scripts/probability_dist.py` is really nice if you need to do any kind of manipulations with (discretized) frequency spectra or other probability distributions.
+* `scripts/empirical_cfs.py` will generate conditional frequency spectra for whatever empirical data you want to analyze.
 
 ## Requirements
 ### for analyzing empirical data
